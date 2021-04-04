@@ -32,4 +32,4 @@ def snap_feed(username,password,url,port,channel,tech):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=80,debug=True)

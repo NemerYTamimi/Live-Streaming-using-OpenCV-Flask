@@ -27,7 +27,7 @@ def video_feed(username,password,url,port,channel,tech):
 @app.route('/getSnap/<string:username>/<string:password>/<string:url>/<int:port>/<int:channel>/<string:tech>')
 def snap_feed(username,password,url,port,channel,tech):
     #Video streaming route. Put this in the src attribute of an img tag
-    return redirect(f"http://{username}:{password}@{url}:{port}/ISAPI/Streaming/channels/{channel}/picture", code=302)
+    return redirect("http://"+username+":"+password+"@"+url+":"+port+"/ISAPI/Streaming/channels/"+channel+"/picture")
 
 
 if __name__ == '__main__':

@@ -6,9 +6,7 @@ app = Flask(__name__)
 
 def gen_frames(username,password,url,port,channel,tech):  # generate frame by frame from camera
     if tech=='hikvision':
-        camera = cv2.VideoCapture(f"rtsp://{username}:{password}@{url}:{port}/Streaming/Channels/{channel}/") 
-        # camera = cv2.VideoCapture("rtsp://admin:G123456789@176.67.56.49:7009/Streaming/Channels/401") 
-
+        camera = cv2.VideoCapture("rtsp://"+username+":"+password+"@"+url+":"+port+"/Streaming/Channels/"+channel) 
     while True:
         # Capture frame-by-frame
         success, frame = camera.read()  # read the camera frame

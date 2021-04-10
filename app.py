@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 def gen_frames(username,password,url,port,channel,tech):  # generate frame by frame from camera
     if tech=='hikvision':
-        # camera = cv2.VideoCapture(f"rtsp://{username}:{password}@{url}:{port}/Streaming/Channels/{channel}/") 
-        camera = cv2.VideoCapture("rtsp://admin:G123456789@176.67.56.49:7009/Streaming/Channels/401") 
+        camera = cv2.VideoCapture(f"rtsp://{username}:{password}@{url}:{port}/Streaming/Channels/{channel}/") 
+        # camera = cv2.VideoCapture("rtsp://admin:G123456789@176.67.56.49:7009/Streaming/Channels/401") 
 
     while True:
         # Capture frame-by-frame
@@ -33,4 +33,4 @@ def snap_feed(username,password,url,port,channel,tech):
 
 
 if __name__ == '__main__':
-    app.run(port=7010,debug=True)
+    app.run(host='0.0.0.0',port=80,debug=True)

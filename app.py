@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 def gen_frames(username,password,url,port,channel,tech):  # generate frame by frame from camera
     if tech=='hikvision':
-        camera = cv2.VideoCapture("rtsp://"+username+":"+password+"@"+url+":"+port+"/Streaming/Channels/"+channel) 
+        x="rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
+        print(x)
+        camera = cv2.VideoCapture(x) 
     while True:
         # Capture frame-by-frame
         success, frame = camera.read()  # read the camera frame
@@ -27,7 +29,7 @@ def video_feed(username,password,url,port,channel,tech):
 @app.route('/getSnap/<string:username>/<string:password>/<string:url>/<int:port>/<int:channel>/<string:tech>')
 def snap_feed(username,password,url,port,channel,tech):
     #Video streaming route. Put this in the src attribute of an img tag
-    return redirect("http://"+username+":"+password+"@"+url+":"+port+"/ISAPI/Streaming/channels/"+channel+"/picture")
+    return redirect("http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/picture")
 
 
 if __name__ == '__main__':

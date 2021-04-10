@@ -32,5 +32,6 @@ def snap_feed(username,password,url,port,channel,tech):
     return redirect("http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/picture")
 
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=7009,debug=True)

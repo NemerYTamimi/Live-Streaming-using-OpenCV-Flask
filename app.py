@@ -9,6 +9,6 @@ counter = 0
 while True:
    ret, frame = cap.read()
    if ret:
-       cv2.imwrite("./"+str(counter) + '.jpg', frame)
+       cv2.imwrite(str(counter) + '.jpg', frame)
        counter = counter + 1
    time.sleep(1)

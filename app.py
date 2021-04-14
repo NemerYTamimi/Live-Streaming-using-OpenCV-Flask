@@ -1,48 +1,43 @@
-from flask import Flask, render_template, request, flash, url_for, send_from_directory, redirect, jsonify, Response
 import cv2
+import numpy as np
 
-app = Flask(__name__)
-# for local webcam use cv2.VideoCapture(0)
+# Create a VideoCapture object
+cap = cv2.VideoCapture("rtsp://admin:wireless-ip-22@176.67.56.49:554/Streaming/Channels/101")
 
+# Check if camera opened successfully
+if (cap.isOpened() == False): 
+  print("Unable to read camera feed")
 
-# generate frame by frame from camera
-def gen_frames(username, password, url, port, channel, tech):
-    if tech == 'hikvision':
-        x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url) + \
-            ":"+str(port)+"/Streaming/Channels/"+str(channel)
-        print(x)
-        camera = cv2.VideoCapture(x)
-    while True:
-        # Capture frame-by-frame
-        success, frame = camera.read()  # read the camera frame
-        if not success:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+# Default resolutions of the frame are obtained.The default resolutions are system dependent.
+# We convert the resolutions from float to integer.
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
 
+# Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+out = cv2.VideoWriter('./outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
 
-@app.route('/getVideo/<string:username>/<string:password>/<string:url>/<int:port>/<int:channel>/<string:tech>')
-def video_feed(username, password, url, port, channel, tech):
-    # Video streaming route. Put this in the src attribute of an img tag
-    return Response(gen_frames(username, password, url, port, channel, tech), mimetype='multipart/x-mixed-replace; boundary=frame')
+while(True):
+  ret, frame = cap.read()
 
+  if ret == True: 
+    
+    # Write the frame into the file 'output.avi'
+    out.write(frame)
 
-@app.route('/getSnap/<string:username>/<string:password>/<string:url>/<int:port>/<int:channel>/<string:tech>')
-def snap_feed(username, password, url, port, channel, tech):
-    # Video streaming route. Put this in the src attribute of an img tag
-    x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/picture"
-    return redirect(x)
+    # Display the resulting frame    
+    cv2.imshow('frame',frame)
 
-@app.route('/')
-def viewCam():
-    return render_template('index.html')
+    # Press Q on keyboard to stop recording
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+      break
 
-@app.route('/new')
-def newCam():
-    return render_template('new/index.html')
+  # Break the loop
+  else:
+    break  
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=7010, debug=True)
+# When everything done, release the video capture and video write objects
+cap.release()
+out.release()
+
+# Closes all the frames
+cv2.destroyAllWindows()

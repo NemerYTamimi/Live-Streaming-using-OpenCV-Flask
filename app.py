@@ -17,7 +17,7 @@ def gen_frames(username, password, url, port, channel, tech):
         frame_width = int(camera.get(3))
         frame_height = int(camera.get(4))
         # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
-        out = cv2.VideoWriter('./outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+        out = cv2.VideoWriter('../yolo/videos/outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
 
     while True:
         # Capture frame-by-frame

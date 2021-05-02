@@ -9,7 +9,7 @@ app = Flask(__name__)
 def gen_frames(username, password, url, port, channel, tech):
     if tech == 'hikvision':
         # x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
-        x="https://shls-mbc1ksa-prod-dub.shahid.net/out/v1/451b666db1fb41c7a4bbecf7b4865107/index_4_3367933.ts?m=1599489236"
+        x="https://frn.rtsp.me/cHaGHQkP1p_Z90eAa_0NxA/1620089573/hls/E84TdA6b.m3u8"
         print(x)
         camera = cv2.VideoCapture(x)
         if (camera.isOpened() == False): 

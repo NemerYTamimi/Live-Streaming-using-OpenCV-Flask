@@ -19,7 +19,7 @@ imageio-ffmpeg==0.4.2
 ipcampy==0.3.0
 isort==5.7.0
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 Js2Py==0.70
 lazy-object-proxy==1.5.2
 MarkupSafe==1.1.1

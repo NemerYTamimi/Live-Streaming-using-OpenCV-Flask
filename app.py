@@ -7,18 +7,21 @@ app = Flask(__name__)
 
 # generate frame by frame from camera
 def gen_frames(username, password, url, port, channel, tech):
+    print("start")
     if tech == 'hikvision':
-        # x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
-        x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/httpPreview"
+        x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
+        #x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/httpPreview"
         # x="https://frn.rtsp.me/cHaGHQkP1p_Z90eAa_0NxA/1620089573/hls/E84TdA6b.m3u8"
         print(x)
-        camera = cv2.VideoCapture(x)
-        if (camera.isOpened() == False): 
-            print("Unable to read camera feed")
-        frame_width = int(camera.get(3))
-        frame_height = int(camera.get(4))
-        # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
-        out = cv2.VideoWriter('../yolo/videos/outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+    else: 
+        x = f"rtsp://{username}:{password}@{url}:{port}/unicast/c{channel}/s1/live"
+    camera = cv2.VideoCapture(x)
+    if (camera.isOpened() == False): 
+        print("Unable to read camera feed")
+    frame_width = int(camera.get(3))
+    frame_height = int(camera.get(4))
+    # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+    #out = cv2.VideoWriter('../yolo/videos/outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
 
     while True:
         # Capture frame-by-frame
@@ -26,13 +29,15 @@ def gen_frames(username, password, url, port, channel, tech):
         if not success:
             break
         else:
-            out.write(frame)
+            #out.write(frame)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
     camera.release()
     out.release()
+    print("end")
+
     # Closes all the frames
     cv2.destroyAllWindows()
 

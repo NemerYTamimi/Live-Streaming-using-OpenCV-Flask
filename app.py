@@ -12,7 +12,7 @@ def gen_frames(username, password, url, port, channel, tech):
     if tech == 'hikvision':
         x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
         #x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/httpPreview"
-    else if tech == 'uniview': 
+    elif tech == 'uniview': 
         x = f"rtsp://{username}:{password}@{url}:{port}/unicast/c{channel}/s1/live"
     print(x)
     camera = cv2.VideoCapture(x)

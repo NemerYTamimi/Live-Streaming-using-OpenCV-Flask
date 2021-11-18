@@ -8,13 +8,13 @@ app = Flask(__name__)
 # generate frame by frame from camera
 def gen_frames(username, password, url, port, channel, tech):
     print("start")
+    x="https://frn.rtsp.me/cHaGHQkP1p_Z90eAa_0NxA/1620089573/hls/E84TdA6b.m3u8"
     if tech == 'hikvision':
         x = "rtsp://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/Streaming/Channels/"+str(channel)
         #x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/httpPreview"
-        # x="https://frn.rtsp.me/cHaGHQkP1p_Z90eAa_0NxA/1620089573/hls/E84TdA6b.m3u8"
-        print(x)
-    else: 
+    else if tech == 'uniview': 
         x = f"rtsp://{username}:{password}@{url}:{port}/unicast/c{channel}/s1/live"
+    print(x)
     camera = cv2.VideoCapture(x)
     if (camera.isOpened() == False): 
         print("Unable to read camera feed")

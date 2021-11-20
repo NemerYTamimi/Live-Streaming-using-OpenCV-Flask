@@ -34,10 +34,9 @@ def gen_frames(username, password, url, port, channel, tech):
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
-    camera.release()
-    out.release()
     print("end")
-
+    camera.release()
+    #out.release()
     # Closes all the frames
     cv2.destroyAllWindows()
 
@@ -51,7 +50,8 @@ def video_feed(username, password, url, port, channel, tech):
 @app.route('/getSnap/<string:username>/<string:password>/<string:url>/<int:port>/<int:channel>/<string:tech>')
 def snap_feed(username, password, url, port, channel, tech):
     # Video streaming route. Put this in the src attribute of an img tag
-    x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/picture"
+    if(tech == "hikvision"):
+        x = "http://"+str(username)+":"+str(password)+"@"+str(url)+":"+str(port)+"/ISAPI/Streaming/channels/"+str(channel)+"/picture"
     return redirect(x)
 
 @app.route('/')
@@ -63,4 +63,4 @@ def newCam():
     return render_template('new/index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=7010, debug=True)

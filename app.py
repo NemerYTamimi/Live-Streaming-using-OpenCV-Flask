@@ -63,4 +63,4 @@ def newCam():
     return render_template('new/index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=7010, debug=True)
+    app.run()
